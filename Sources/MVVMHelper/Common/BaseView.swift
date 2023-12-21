@@ -8,21 +8,21 @@
 #if canImport(UIKit)
 import UIKit
 
-public class BaseView: UIView {
+open class BaseView: UIView {
     override public init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setup() {
+    open func setup() {
         setupConstraints()
     }
     
-    public func setupConstraints() {
+    open func setupConstraints() {
         
     }
 }

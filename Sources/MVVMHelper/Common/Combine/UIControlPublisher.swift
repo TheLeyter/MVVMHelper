@@ -10,16 +10,16 @@ import UIKit
 import Combine
 
 extension UIControl {
-    struct EventPublisher: Publisher {
+    public struct EventPublisher: Publisher {
 
-        typealias Output = Void
-        typealias Failure = Never
+        public typealias Output = UIControl
+        public typealias Failure = Never
 
         fileprivate var control: UIControl
         fileprivate var event: Event
 
-        func receive<S: Subscriber>(subscriber: S) where S.Input == Output, S.Failure == Failure {
-            let subscription = EventSubscription<S>()
+        public func receive<S: Subscriber>(subscriber: S) where S.Input == Output, S.Failure == Failure {
+            let subscription = EventSubscription<S>(control: control)
             subscription.target = subscriber
             
             subscriber.receive(subscription: subscription)
@@ -31,24 +31,29 @@ extension UIControl {
 
 private extension UIControl {
     class EventSubscription<Target: Subscriber>: Subscription
-        where Target.Input == Void {
+        where Target.Input == UIControl {
         
+        var control: UIControl
         var target: Target?
+        
+        init(control: UIControl) {
+            self.control = control
+        }
 
-        func request(_ demand: Subscribers.Demand) {}
+        public func request(_ demand: Subscribers.Demand) {}
 
-        func cancel() {
+        public func cancel() {
             target = nil
         }
 
         @objc func trigger() {
-            _ = target?.receive(())
+            _ = target?.receive(control)
         }
     }
 }
 
 extension UIControl {
-    func publisher(for event: Event) -> EventPublisher {
+    public func publisher(for event: Event) -> EventPublisher {
         EventPublisher(control: self, event: event)
     }
 }

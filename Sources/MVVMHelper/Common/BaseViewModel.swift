@@ -10,22 +10,19 @@ import Foundation
 import UIKit
 import Combine
 
-public class BaseViewModel: ObservableObject {
-    @Published var state: State = .none
+open class BaseViewModel: ObservableObject {
+    @Published public var state: State = .none
     
-    func didViewLoad() async {}
+    public init() {}
+    
+    open func didViewLoad() async {}
 }
 
 extension BaseViewModel {
-    enum State {
+    public enum State {
         case none
         case loading(Bool)
         case error(Error)
     }
-}
-
-//MARK: for test
-public class TestViewModel: BaseViewModel {
-    
 }
 #endif

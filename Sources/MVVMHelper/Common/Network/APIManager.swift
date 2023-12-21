@@ -23,10 +23,10 @@ class APIManager {
 
 extension APIManager: IAPIManager {
     func request<M>() async throws -> M where M : Decodable {
-        <#code#>
+        return try M(from: JSONDecoder() as! Decoder)
     }
     
     func request<M, B>(body: B) async throws -> M where M : Decodable, B : Encodable {
-        <#code#>
+        return try M(from: JSONDecoder() as! Decoder)
     }
 }
